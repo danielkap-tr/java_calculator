@@ -42,6 +42,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/h2-console/**").permitAll() // H2 for debugging
                 .requestMatchers("/calculator/health").permitAll()
+                .requestMatchers("/auth/**").permitAll() // Permitting login for testing
                 .anyRequest().authenticated() // All calculator logic requires JWT
             )
             .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Enable frame options for H2 console
