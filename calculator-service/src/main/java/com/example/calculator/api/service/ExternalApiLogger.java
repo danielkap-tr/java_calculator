@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import java.util.Map;
 
 /**
  * Demonstrates sending REST requests with custom headers.
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ExternalApiLogger {
 
+    @SuppressWarnings("unused")
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -31,9 +33,11 @@ public class ExternalApiLogger {
             Map<String, Object> body = Map.of("op", operation, "res", result);
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
 
-            // Simulation: sending to a mock endpoint
+            // Simulation: instead of actual restTemplate.exchange call
             // restTemplate.exchange("http://mock-logger:8080/log", HttpMethod.POST, entity, String.class);
-            System.out.println("LOGGED to external service with headers: " + headers);
+            
+            System.out.println("LOGGED to external service (Simulated " + HttpMethod.POST + "): " + entity.getBody());
+            System.out.println("Using headers: " + entity.getHeaders());
         } catch (Exception e) {
             // Log error
             System.err.println("Could not log to external service: " + e.getMessage());

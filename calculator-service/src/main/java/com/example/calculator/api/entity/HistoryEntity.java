@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "calculation_history")
+@Getter
+@Setter
+@NoArgsConstructor
 public class HistoryEntity {
 
     @Id
@@ -29,9 +32,6 @@ public class HistoryEntity {
     @Column(name = "calculation_time")
     private LocalDateTime calculationTime;
 
-    // Constructors
-    public HistoryEntity() {}
-
     public HistoryEntity(String operation, double inputA, double inputB, double result) {
         this.operation = operation;
         this.inputA = inputA;
@@ -39,19 +39,4 @@ public class HistoryEntity {
         this.result = result;
         this.calculationTime = LocalDateTime.now();
     }
-
-    // Getters and Setters
-    public Long getId() { return id; }
-    public String getOperation() { return operation; }
-    public double getInputA() { return inputA; }
-    public double getInputB() { return inputB; }
-    public double getResult() { return result; }
-    public LocalDateTime getCalculationTime() { return calculationTime; }
-    
-    public void setId(Long id) { this.id = id; }
-    public void setOperation(String operation) { this.operation = operation; }
-    public void setInputA(double inputA) { this.inputA = inputA; }
-    public void setInputB(double inputB) { this.inputB = inputB; }
-    public void setResult(double result) { this.result = result; }
-    public void setCalculationTime(LocalDateTime calculationTime) { this.calculationTime = calculationTime; }
 }
