@@ -1,0 +1,11 @@
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\controller\AuthController.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\controller\CalculatorController.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\entity\HistoryEntity.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\repository\HistoryRepository.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\service\JooqHistoryService.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\CalculatorApiApplication.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\model\CalculatorRequest.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\security\JwtAuthenticationFilter.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\security\JwtService.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\service\ExternalApiLogger.java
+C:\Users\kaplu\java_calculator\calculator-service\src\main\java\com\example\calculator\api\config\SecurityConfig.java
