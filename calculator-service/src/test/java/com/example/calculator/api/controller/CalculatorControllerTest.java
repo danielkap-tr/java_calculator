@@ -61,6 +61,7 @@ class CalculatorControllerTest {
      * Test Secure endpoint - Success with token.
      */
     @Test
+    @SuppressWarnings("null")
     void testCalculateWithToken() throws Exception {
         UserDetails user = userDetailsService.loadUserByUsername("admin");
         String token = jwtService.generateToken(user);
