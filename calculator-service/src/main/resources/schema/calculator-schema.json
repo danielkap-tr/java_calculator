@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CalculatorRequest",
+  "type": "object",
+  "properties": {
+    "operation": {
+      "type": "string",
+      "enum": ["ADD", "SUBTRACT", "MULTIPLY", "DIVIDE"]
+    },
+    "a": {
+      "type": "number"
+    },
+    "b": {
+      "type": "number"
+    }
+  },
+  "required": ["operation", "a", "b"]
+}

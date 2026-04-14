@@ -1,0 +1,24 @@
+replicaCount: 1
+
+image:
+  repository: example/calculator-api
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 512Mi
+
+# Environment variables for the Spring Boot app
+env:
+  SPRING_PROFILES_ACTIVE: prod
+  DATABASE_URL: jdbc:h2:mem:calculator
