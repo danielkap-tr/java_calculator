@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Dash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        input, select {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-box {
+            margin-top: 32px;
+            padding: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 16px;
+            border: 1px dashed var(--accent);
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .status-connected { background: rgba(16, 185, 129, 0.2); color: var(--accent); }
+        .status-disconnected { background: rgba(239, 68, 68, 0.2); color: var(--error); }
+
+        #login-section { display: block; }
+        #calc-section { display: none; }
+
+        .history-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>Calc</h1>
+        <p class="subtitle">Secure Java API Integration</p>
+
+        <!-- Login Section -->
+        <div id="login-section">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" value="admin">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" value="password">
+            </div>
+            <button onclick="login()">Authenticate</button>
+            <p id="login-error" style="color: var(--error); font-size: 0.8rem; margin-top: 10px; text-align: center;"></p>
+        </div>
+
+        <!-- Calculator Section -->
+        <div id="calc-section">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <span class="status-tag status-connected">API CONECTED</span>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <div style="flex: 1;">
+                    <label>Value A</label>
+                    <input type="number" id="numA" placeholder="0">
+                </div>
+                <div style="flex: 1;">
+                    <label>Value B</label>
+                    <input type="number" id="numB" placeholder="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Operation</label>
+                <select id="operation">
+                    <option value="ADD">Add (+)</option>
+                    <option value="SUBTRACT">Subtract (-)</option>
+                    <option value="MULTIPLY">Multiply (×)</option>
+                    <option value="DIVIDE">Divide (÷)</option>
+                </select>
+            </div>
+
+            <button onclick="calculate()">Compute</button>
+
+            <div id="result-container" class="result-box">
+                <label>Calculation Result</label>
+                <div class="result-value" id="result-display">0</div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <label>Recent History (JPA)</label>
+                <div id="history-list">
+                    <!-- History will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let authToken = '';
+
+    async function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorEl = document.getElementById('login-error');
+
+        try {
+            const response = await fetch('http://localhost:8080/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                authToken = data.token;
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('calc-section').style.display = 'block';
+                fetchHistory();
+            } else {
+                errorEl.innerText = 'Authentication failed. Check if API is running.';
+            }
+        } catch (e) {
+            errorEl.innerText = 'Connection error. Is spring-boot:run active?';
+        }
+    }
+
+    async function calculate() {
+        const a = parseFloat(document.getElementById('numA').value) || 0;
+        const b = parseFloat(document.getElementById('numB').value) || 0;
+        const operation = document.getElementById('operation').value;
+
+        try {
+            const response = await fetch('http://localhost:8080/calculator/calculate', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authToken
+                },
+                body: JSON.stringify({ a, b, operation })
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                document.getElementById('result-display').innerText = result;
+                document.getElementById('result-container').style.display = 'block';
+                fetchHistory();
+            } else {
+                alert('Calculation failed');
+            }
+        } catch (e) {
+            alert('Error calling API');
+        }
+    }
+
+    async function fetchHistory() {
+        try {
+            const response = await fetch('http://localhost:8080/calculator/history/jpa', {
+                headers: { 'Authorization': 'Bearer ' + authToken }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const list = document.getElementById('history-list');
+                list.innerHTML = '';
+                data.slice(-3).reverse().forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'history-item';
+                    div.innerHTML = `<span>${item.operation} (${item.inputA}, ${item.inputB})</span> <b>${item.result}</b>`;
+                    list.appendChild(div);
+                });
+            }
+        } catch (e) {}
+    }
+</script>
+
+</body>
+</html>
